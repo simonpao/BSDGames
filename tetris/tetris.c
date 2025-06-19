@@ -147,7 +147,7 @@ main(argc, argv)
 
 	keys = "15320pq"; // 1 - left; 5 - up; 3 - right; 2 - down; 0 - drop; p - pause; q - quit
 
-	while ((ch = getopt(argc, argv, "k:l:ps")) != -1)
+	while ((ch = getopt(argc, argv, "k:l:psh")) != -1)
 		switch(ch) {
 		case 'k':
 			if (strlen(keys = optarg) != 7)
@@ -167,6 +167,7 @@ main(argc, argv)
 			showscores(0);
 			exit(0);
 		case '?':
+		case 'h':
 		default:
 			usage();
 		}
@@ -342,5 +343,10 @@ void
 usage()
 {
 	(void)fprintf(stderr, "usage: tetris-bsd [-ps] [-k keys] [-l level]\n");
+	(void)fprintf(stderr, "flags: \n");
+	(void)fprintf(stderr, "       [-p] : Preview next piece \n");
+	(void)fprintf(stderr, "       [-s] : Show high scores and exit \n");
+	(void)fprintf(stderr, "       [-k] : Remap keys (default: 15320pq) \n");
+	(void)fprintf(stderr, "       [-l] : Select level (1-9) \n");
 	exit(1);
 }
