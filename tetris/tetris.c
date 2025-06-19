@@ -293,7 +293,7 @@ main(argc, argv)
 			/* move to bottom */
 			while (fits_in(curshape, pos + B_COLS)) {
 				pos += B_COLS;
-				score++;
+				//score++; // don't increment score for moving down one space
 				break ; // only move down once
 			}
 			continue;
@@ -348,5 +348,6 @@ usage()
 	(void)fprintf(stderr, "       [-s] : Show high scores and exit \n");
 	(void)fprintf(stderr, "       [-k] : Remap keys (default: 15320pq) \n");
 	(void)fprintf(stderr, "       [-l] : Select level (1-9) \n");
+	(void)fprintf(stderr, "       [-h] : Show this help text \n");
 	exit(1);
 }
