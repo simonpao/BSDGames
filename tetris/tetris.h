@@ -128,7 +128,6 @@ struct shape {
 };
 
 extern const struct shape shapes[];
-#define	randshape() (&shapes[random() % 7])
 
 extern const struct shape *curshape;
 extern const struct shape *nextshape;
@@ -165,6 +164,8 @@ extern long	fallrate;	/* less than 1 million; smaller => faster */
  */
 extern int	score;		/* the obvious thing */
 extern gid_t	gid, egid;
+
+extern int piece_selection[7] ;
 
 extern char	key_msg[150];
 extern int	showpreview;

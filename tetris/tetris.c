@@ -66,6 +66,9 @@ int	Rows, Cols;		/* current screen size */
 const struct shape *curshape;
 const struct shape *nextshape;
 
+int piece_selection[7] = { 0, 1, 2, 3, 4, 5, 6 } ;
+int piece_sel_ndx = 0 ;
+
 long	fallrate;		/* less than 1 million; smaller => faster */
 
 int	score;			/* the obvious thing */
@@ -74,11 +77,33 @@ gid_t	gid, egid;
 char	key_msg[150];
 int	showpreview;
 
+struct shape * randshape();
 static	void	elide(void);
 static	void	setup_board(void);
 	int	main(int, char **);
 	void	onintr(int) __attribute__((__noreturn__));
 	void	usage(void) __attribute__((__noreturn__));
+
+struct shape *
+randshape()
+{
+	int i, rnd1, rnd2, tmp;
+
+    if (piece_sel_ndx > 6)
+        piece_sel_ndx = 0 ;
+	if (piece_sel_ndx == 0)
+	{
+		for (i = 0; i < 7; i++)
+		{
+			rnd1 = (int)(random() % 7) ;
+			rnd2 = (int)(random() % 7) ;
+			tmp = piece_selection[rnd2] ;
+			piece_selection[rnd2] = piece_selection[rnd1] ;
+			piece_selection[rnd1] = tmp ;
+		}
+	}
+	return (struct shape *) &shapes[piece_selection[piece_sel_ndx++]] ;
+}
 
 /*
  * Set up the initial board.  The bottom display row is completely set,

@@ -400,7 +400,9 @@ scr_update()
 	if (showpreview && (nextshape != lastshape)) {
 		int i;
 		static int r=5, c=2;
-		int tr, tc, t; 
+		int tr, tc, t;
+		// char ndxs[25] ;
+		// sprintf(ndxs, "[%i,%i,%i,%i,%i,%i,%i]", piece_selection[0], piece_selection[1], piece_selection[2], piece_selection[3], piece_selection[4], piece_selection[5], piece_selection[6]) ;
 
 		lastshape = nextshape;
 		
