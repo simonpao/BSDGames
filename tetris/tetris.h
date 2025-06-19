@@ -166,7 +166,7 @@ extern long	fallrate;	/* less than 1 million; smaller => faster */
 extern int	score;		/* the obvious thing */
 extern gid_t	gid, egid;
 
-extern char	key_msg[100];
+extern char	key_msg[150];
 extern int	showpreview;
 
 int	fits_in(const struct shape *, int);
