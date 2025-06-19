@@ -71,7 +71,7 @@ long	fallrate;		/* less than 1 million; smaller => faster */
 int	score;			/* the obvious thing */
 gid_t	gid, egid;
 
-char	key_msg[100];
+char	key_msg[150];
 int	showpreview;
 
 static	void	elide(void);
@@ -132,7 +132,7 @@ main(argc, argv)
 	int pos, c;
 	const char *keys;
 	int level = 2;
-	char key_write[6][10];
+	char key_write[7][10];
 	int ch, i, j;
 	int fd;
 
@@ -145,12 +145,12 @@ main(argc, argv)
 		exit(1);
 	close(fd);
 
-	keys = "jkl pq";
+	keys = "15320pq"; // 1 - left; 5 - up; 3 - right; 2 - down; 0 - drop; p - pause; q - quit
 
-	while ((ch = getopt(argc, argv, "k:l:ps")) != -1)
+	while ((ch = getopt(argc, argv, "k:l:psh")) != -1)
 		switch(ch) {
 		case 'k':
-			if (strlen(keys = optarg) != 6)
+			if (strlen(keys = optarg) != 7)
 				usage();
 			break;
 		case 'l':
@@ -167,6 +167,7 @@ main(argc, argv)
 			showscores(0);
 			exit(0);
 		case '?':
+		case 'h':
 		default:
 			usage();
 		}
@@ -179,8 +180,8 @@ main(argc, argv)
 
 	fallrate = 1000000 / level;
 
-	for (i = 0; i <= 5; i++) {
-		for (j = i+1; j <= 5; j++) {
+	for (i = 0; i <= 6; i++) {
+		for (j = i+1; j <= 6; j++) {
 			if (keys[i] == keys[j]) {
 				errx(1, "duplicate command keys specified.");
 			}
@@ -194,9 +195,9 @@ main(argc, argv)
 	}
 
 	sprintf(key_msg,
-"%s - left   %s - rotate   %s - right   %s - drop   %s - pause   %s - quit",
-		key_write[0], key_write[1], key_write[2], key_write[3],
-		key_write[4], key_write[5]);
+"%s - left   %s - rotate   %s - right   %s - down   %s - drop   %s - pause   %s - quit",
+		key_write[0], key_write[1], key_write[2], key_write[3], key_write[4],
+		key_write[5], key_write[6]);
 
 	(void)signal(SIGINT, onintr);
 	scr_init();
@@ -248,11 +249,11 @@ main(argc, argv)
 		/*
 		 * Handle command keys.
 		 */
-		if (c == keys[5]) {
+		if (c == keys[6]) {
 			/* quit */
 			break;
 		}
-		if (c == keys[4]) {
+		if (c == keys[5]) {
 			static char msg[] =
 			    "paused - press RETURN to continue";
 
@@ -289,6 +290,15 @@ main(argc, argv)
 			continue;
 		}
 		if (c == keys[3]) {
+			/* move to bottom */
+			while (fits_in(curshape, pos + B_COLS)) {
+				pos += B_COLS;
+				score++;
+				break ; // only move down once
+			}
+			continue;
+		}
+		if (c == keys[4]) {
 			/* move to bottom */
 			while (fits_in(curshape, pos + B_COLS)) {
 				pos += B_COLS;
@@ -333,5 +343,10 @@ void
 usage()
 {
 	(void)fprintf(stderr, "usage: tetris-bsd [-ps] [-k keys] [-l level]\n");
+	(void)fprintf(stderr, "flags: \n");
+	(void)fprintf(stderr, "       [-p] : Preview next piece \n");
+	(void)fprintf(stderr, "       [-s] : Show high scores and exit \n");
+	(void)fprintf(stderr, "       [-k] : Remap keys (default: 15320pq) \n");
+	(void)fprintf(stderr, "       [-l] : Select level (1-9) \n");
 	exit(1);
 }
