@@ -281,6 +281,19 @@ main(argc, argv)
 
 			if (fits_in(new, pos))
 				curshape = new;
+			// Let's add a little wiggle room
+			else if (fits_in(new, pos + 1)) {
+				curshape = new;
+				pos++;
+			}
+			else if (fits_in(new, pos - 1)) {
+				curshape = new;
+				pos--;
+			}
+			else if (fits_in(new, pos + B_COLS)) {
+				curshape = new;
+				pos += B_COLS;
+			}
 			continue;
 		}
 		if (c == keys[2]) {
@@ -319,11 +332,11 @@ main(argc, argv)
 	    score, score == 1 ? "" : "s", level, score * level);
 	savescore(level);
 
-	printf("\nHit RETURN to see high scores, ^C to skip.\n");
+	//printf("\nHit RETURN to see high scores, ^C to skip.\n");
 
-	while ((i = getchar()) != '\n')
+	/*while ((i = getchar()) != '\n')
 		if (i == EOF)
-			break;
+			break;*/
 
 	showscores(level);
 
