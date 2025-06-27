@@ -75,3 +75,5 @@ subst.rules
 subst.sed
 tetris/tetris
 tetris/tetris.6
+dab/ttyscrn.d.tmp
+tetris-bsd.scores

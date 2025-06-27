@@ -89,8 +89,8 @@ randshape()
 {
 	int i, rnd1, rnd2, tmp;
 
-    if (piece_sel_ndx > 6)
-        piece_sel_ndx = 0 ;
+	if (piece_sel_ndx > 6)
+		piece_sel_ndx = 0 ;
 	if (piece_sel_ndx == 0)
 	{
 		for (i = 0; i < 7; i++)
@@ -220,7 +220,7 @@ main(argc, argv)
 	}
 
 	sprintf(key_msg,
-"%s - left   %s - rotate   %s - right   %s - down   %s - drop   %s - pause   %s - quit",
+YEL "%s - left   %s - rotate   %s - right   %s - down   %s - drop   %s - pause   %s - quit" RESET,
 		key_write[0], key_write[1], key_write[2], key_write[3], key_write[4],
 		key_write[5], key_write[6]);
 
@@ -280,7 +280,7 @@ main(argc, argv)
 		}
 		if (c == keys[5]) {
 			static char msg[] =
-			    "paused - press RETURN to continue";
+			    BLU "paused - press RETURN to continue" RESET;
 
 			place(curshape, pos, 1);
 			do {
@@ -318,6 +318,14 @@ main(argc, argv)
 			else if (fits_in(new, pos + B_COLS)) {
 				curshape = new;
 				pos += B_COLS;
+			}
+			else if (fits_in(new, pos + 1) && fits_in(new, pos + B_COLS + 1)) {
+				curshape = new;
+				pos += B_COLS + 1;
+			}
+			else if (fits_in(new, pos - 1) && fits_in(new, pos + B_COLS - 1)) {
+				curshape = new;
+				pos += B_COLS - 1;
 			}
 			continue;
 		}

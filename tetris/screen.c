@@ -392,7 +392,7 @@ scr_update()
 			putpad(HOstr);
 		else
 			moveto(0, 0);
-		(void) printf("Score: %d", score);
+		(void) printf(RED "Score: %d" RESET, score);
 		curscore = score;
 	}
 
@@ -403,6 +403,7 @@ scr_update()
 		int tr, tc, t;
 		// char ndxs[25] ;
 		// sprintf(ndxs, "[%i,%i,%i,%i,%i,%i,%i]", piece_selection[0], piece_selection[1], piece_selection[2], piece_selection[3], piece_selection[4], piece_selection[5], piece_selection[6]) ;
+		// scr_msg(ndxs, 1);
 
 		lastshape = nextshape;
 		
@@ -414,12 +415,12 @@ scr_update()
 		moveto(r+2, c-1); putstr("          ");
 
 		moveto(r-3, c-2);
-		putstr("Next shape:");
+		putstr(CYN "Next shape:" RESET);
 						
 		/* draw */
 		putpad(SOstr);
 		moveto(r, 2*c);
-		putstr("  ");
+		putstr(CYN "  ");
 		for(i=0; i<3; i++) {
 			t = c + r*B_COLS;
 			t += nextshape->off[i];
@@ -430,9 +431,11 @@ scr_update()
 			moveto(tr, 2*tc);
 			putstr("  ");
 		}
+		putstr(RESET);
 		putpad(SEstr);
 	}
-	
+
+	putstr(GRN) ;
 	bp = &board[D_FIRST * B_COLS];
 	sp = &curscreen[D_FIRST * B_COLS];
 	for (j = D_FIRST; j < D_LAST; j++) {
@@ -454,8 +457,9 @@ scr_update()
 					cur_so = so;
 				}
 				putstr("  ");
-			} else
+			} else {
 				putstr(so ? "XX" : "  ");
+			}
 			ccol = i + 1;
 			/*
 			 * Look ahead a bit, to avoid extra motion if
@@ -476,6 +480,8 @@ scr_update()
 			}
 		}
 	}
+
+	putstr(RESET) ;
 	if (cur_so)
 		putpad(SEstr);
 	(void) fflush(stdout);
